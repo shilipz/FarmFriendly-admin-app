@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "94389419359",
+    "project_id": "second-project-c261a",
+    "storage_bucket": "second-project-c261a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:94389419359:android:d022286c01ecc96d1acaea",
+        "android_client_info": {
+          "package_name": "com.example.cucumber_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEytojAQfTk6Q9ZaK7w96LUhpX5kw7ODE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
