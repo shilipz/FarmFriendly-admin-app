@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Arrowback extends StatelessWidget {
   final Color backcolor;
@@ -27,8 +28,9 @@ class Captions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       captions,
-      style: TextStyle(
-          color: captionColor, fontSize: 30, fontWeight: FontWeight.w600),
+      style: GoogleFonts.playfairDisplay(
+          textStyle: TextStyle(
+              color: captionColor, fontSize: 28, fontWeight: FontWeight.w600)),
     );
   }
 }

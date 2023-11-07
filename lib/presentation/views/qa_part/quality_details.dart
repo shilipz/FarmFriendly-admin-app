@@ -14,11 +14,8 @@ class QualityAnalyst extends StatelessWidget {
           Arrowback(backcolor: kblack),
           Padding(
             padding: EdgeInsets.all(22),
-            child: Text(
-              'Farm name',
-              style: commonText,
-            ),
-          )
+            child: Text('Dennis Farm', style: commonText),
+          ),Row(children: [],)
         ],
       )),
     );

@@ -38,16 +38,21 @@ class ContactForm extends StatelessWidget {
 class Next extends StatelessWidget {
   final String buttonText;
   final Color buttonColor;
-  const Next({required this.buttonText, required this.buttonColor, super.key});
+  final Function()? onPressed;
+  const Next(
+      {required this.buttonText,
+      required this.buttonColor,
+      super.key,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: 90,
-        height: 40,
+        // width: 90,
+        // height: 40,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onPressed,
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(buttonColor),
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(

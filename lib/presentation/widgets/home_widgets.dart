@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cucumber_admin/presentation/views/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +29,7 @@ class CustomAppbar extends StatelessWidget {
         IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => SettingScreen(),
+                builder: (context) => const SettingScreen(),
               ));
             },
             icon: const Icon(Icons.settings, size: 32, color: kwhite)),
@@ -40,9 +39,11 @@ class CustomAppbar extends StatelessWidget {
 }
 
 class HomeContainer extends StatelessWidget {
-  final String label;
+  final String title;
+  final String? subtitle;
   final IconData? notificatn;
-  const HomeContainer({this.notificatn, required this.label, super.key});
+  const HomeContainer(
+      {this.notificatn, super.key, required this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +52,19 @@ class HomeContainer extends StatelessWidget {
       children: [
         Container(
           width: screenWidth * 0.8,
-          height: screenHeight * 0.08,
-          decoration: BoxDecoration(
-              color: kwhite,
+          height: screenHeight * 0.1,
+          decoration: const BoxDecoration(
+              color: Colors.white70,
               borderRadius: BorderRadius.all(Radius.circular(25))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                  child: Text(label,
-                      style: const TextStyle(fontSize: 20, color: darkgreen))),
+              Text(title,
+                  style: const TextStyle(
+                      fontSize: 23,
+                      color: darkgreen,
+                      fontWeight: FontWeight.w400)),
+              Text(subtitle ?? "")
             ],
           ),
         ),

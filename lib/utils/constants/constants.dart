@@ -4,6 +4,7 @@ import '../../main.dart';
 
 const Color hintcolor = Color.fromRGBO(218, 129, 122, 1);
 const Color lightgreen = Color.fromARGB(255, 104, 244, 76);
+const Color kdarkgreen = Color.fromRGBO(47, 148, 68, 100);
 const Color darkgreen = Color.fromRGBO(46, 125, 50, 1);
 final Color shade = Colors.black.withOpacity(.5);
 const commonHeading =

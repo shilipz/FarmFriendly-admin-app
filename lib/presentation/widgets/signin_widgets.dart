@@ -1,49 +1,21 @@
 import 'dart:developer';
-
-import 'package:cucumber_admin/domain/auth.dart';
-import 'package:cucumber_admin/presentation/views/home_screen.dart';
+import 'package:cucumber_admin/presentation/views/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rive/rive.dart';
 import '../../main.dart';
 import '../../utils/constants/constants.dart';
 
-class SignupStackImg extends StatelessWidget {
-  const SignupStackImg({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/signin.png'), fit: BoxFit.cover)));
-  }
-}
-
-class LoginImage extends StatelessWidget {
-  const LoginImage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(65), bottomRight: Radius.circular(65)),
-      child: Image.asset(
-        'assets/signup_img.jpg',
-        width: screenWidth,
-        height: screenHeight * 0.33,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-}
-
 class LoginHeading extends StatelessWidget {
-  const LoginHeading({super.key});
+  final String signingText;
+  LoginHeading({super.key, required this.signingText});
 
   @override
   Widget build(BuildContext context) {
-    return Text('Cucumber \n  Admin',
-        style: TextStyle(
-            color: lightgreen, fontSize: 36, fontWeight: FontWeight.bold));
+    return Text(signingText,
+        style: GoogleFonts.playfairDisplay(
+            textStyle: const TextStyle(
+                color: darkgreen, fontSize: 36, fontWeight: FontWeight.bold)));
   }
 }
 
@@ -154,7 +126,10 @@ class SignUpButton extends StatelessWidget {
   final Color? buttonColor;
   final Function()? onPressed;
   const SignUpButton(
-      {required this.buttonText, super.key, required this.onPressed, this.buttonColor});
+      {required this.buttonText,
+      super.key,
+      required this.onPressed,
+      this.buttonColor});
 
   @override
   Widget build(BuildContext context) {
@@ -203,4 +178,14 @@ class SignInCard extends StatelessWidget {
       ),
     );
   }
+}
+
+showLoadingWidgets(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return RiveAnimation.asset(
+          'assets/6097-11854-chopping-knife-loading.riv');
+    },
+  );
 }
