@@ -21,12 +21,14 @@ class LoginHeading extends StatelessWidget {
 
 // ignore: must_be_immutable
 class Forms extends StatelessWidget {
+  final bool? obscureText;
   final String loginText;
   final TextEditingController? inputController;
   final String? Function(String?)? customValidator;
   FocusNode? focusNode;
   Forms(
       {required this.customValidator,
+      this.obscureText,
       required this.loginText,
       this.inputController,
       Key? key,
@@ -48,6 +50,7 @@ class Forms extends StatelessWidget {
           }
           return null;
         },
+        obscureText: obscureText ?? false,
         controller: inputController,
         decoration: InputDecoration(
           hintText: loginText,
@@ -146,7 +149,7 @@ class SignUpButton extends StatelessWidget {
             ))),
         child: Text(
           buttonText,
-          style: const TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18, color: kwhite),
         ),
       ),
     );

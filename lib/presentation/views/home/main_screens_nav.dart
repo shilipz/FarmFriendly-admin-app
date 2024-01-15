@@ -2,7 +2,8 @@ import 'package:cucumber_admin/presentation/views/chat/chat.dart';
 import 'package:cucumber_admin/presentation/views/chat/chatlist.dart';
 import 'package:cucumber_admin/presentation/views/products/products.dart';
 import 'package:cucumber_admin/presentation/views/qa_part/all_users.dart';
-import 'package:cucumber_admin/presentation/views/weekly_schedule.dart';
+import 'package:cucumber_admin/presentation/views/qa_part/location.dart';
+import 'package:cucumber_admin/presentation/views/todays_collection/todays_collection.dart';
 import 'package:cucumber_admin/presentation/widgets/common_widgets.dart';
 import 'package:cucumber_admin/presentation/widgets/home_widgets.dart';
 import 'package:cucumber_admin/utils/constants/constants.dart';
@@ -41,11 +42,11 @@ class MainScreensNav extends StatelessWidget {
                   builder: (context) => const AllUsers(),
                 )),
                 child: const HomeContainer(
-                  title: "Quality Analysis",
-                  subtitle: 'Add collected product details',
+                  title: "User Management",
+                  subtitle: 'View/Update user collection details',
                 ),
               ),
-              sheight,
+              lheight,
               InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const Products(),
@@ -55,26 +56,26 @@ class MainScreensNav extends StatelessWidget {
                   subtitle: 'Products details adding',
                 ),
               ),
-              sheight,
+              lheight,
               InkWell(
                 onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const AllUsers(),
+                  builder: (context) => TodaysCollection(),
                 )),
                 child: const HomeContainer(
-                    title: "Today's area of collection",
-                    subtitle: "See today's schedule"),
+                    title: "Daily Schedules", subtitle: "See daily schedule"),
               ),
-              sheight,
-              InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const WeeklySchedule(),
-                )),
-                child: const HomeContainer(
-                  title: "This week's schedule",
-                  subtitle: "See schedule",
-                ),
-              ),
-              sheight,
+
+              // InkWell(
+              // onTap: () =>
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) =>  WeeklySchedule(),
+              // )),
+              //   child: const HomeContainer(
+              //     title: "This week's schedule",
+              //     subtitle: "See schedule",
+              //   ),
+              // ),
+              lheight,
               InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ChatList(),

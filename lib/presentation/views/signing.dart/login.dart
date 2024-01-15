@@ -3,6 +3,7 @@ import 'package:cucumber_admin/domain/auth.dart';
 import 'package:cucumber_admin/main.dart';
 import 'package:cucumber_admin/presentation/presentation_logic/bloc/login/login_bloc.dart';
 import 'package:cucumber_admin/presentation/views/home/home_screen.dart';
+import 'package:cucumber_admin/presentation/views/signing.dart/forgot_pwd.dart';
 import 'package:cucumber_admin/presentation/widgets/signin_widgets.dart';
 import 'package:cucumber_admin/utils/constants/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,7 +13,7 @@ import 'package:rive/rive.dart';
 import 'signup_screen.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -152,25 +153,32 @@ class _LoginState extends State<Login> {
                     if (_formkey.currentState!.validate()) {
                       await _signin(context);
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
+                        builder: (context) => const HomeScreen(),
                       ));
                     }
                   },
                   buttonText: 'Login',
                 ),
                 SizedBox(height: screenHeight * 0.015),
-                const Text('forgot your password?'),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return const ForgotPwd();
+                      }));
+                    },
+                    child: const Text('forgot your password?')),
                 SizedBox(height: screenHeight * 0.13),
                 InkWell(
-                  onTap: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => SignUp())),
+                  onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const SignUp())),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SignUp(),
+                                builder: (context) => const SignUp(),
                               ));
                             },
                             child: const Text('SignUp',

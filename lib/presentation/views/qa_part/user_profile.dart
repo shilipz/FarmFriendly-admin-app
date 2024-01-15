@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cucumber_admin/main.dart';
 import 'package:cucumber_admin/presentation/views/qa_part/collected_veg_details.dart';
+import 'package:cucumber_admin/presentation/views/qa_part/invoice/invoice.dart';
+import 'package:cucumber_admin/presentation/views/qa_part/location.dart';
 import 'package:cucumber_admin/presentation/views/qa_part/sales_history.dart';
 import 'package:cucumber_admin/presentation/widgets/common_widgets.dart';
 import 'package:cucumber_admin/utils/constants/constants.dart';
@@ -17,17 +20,25 @@ class UserProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(20),
+        body: Container(
+          height: screenHeight,
+          width: screenWidth,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: AlignmentDirectional.topStart,
+                end: Alignment.bottomCenter,
+                colors: [kwhite, lightgreen]),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+          ),
           child: Column(
             children: [
               Expanded(
                   child: FutureBuilder<QuerySnapshot>(
-                      future: FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(docId)
-                          .collection('contact_details')
-                          .get(),
+                      future:
+                          FirebaseFirestore.instance.collection('users').get(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -46,6 +57,8 @@ class UserProfile extends StatelessWidget {
                           var landmark = contactDetails.isNotEmpty
                               ? contactDetails[0]['landmark'] ?? 'N/A'
                               : 'N/A';
+                          var latitude = contactDetails[0]['latitude'];
+                          var longitude = contactDetails[0]['longitude'];
                           return FutureBuilder<DocumentSnapshot>(
                             future: FirebaseFirestore.instance
                                 .collection('users')
@@ -87,69 +100,109 @@ class UserProfile extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Center(
-                                            child: Captions(
-                                                captionColor: darkgreen,
-                                                captions: '$username'),
+                                          Row(
+                                            children: [
+                                              const Arrowback(
+                                                  backcolor: darkgreen),
+                                              Center(
+                                                child: Captions(
+                                                    captionColor: darkgreen,
+                                                    captions: '$username'),
+                                              ),
+                                            ],
                                           ),
                                           lheight,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              const Text(
-                                                'Address: ',
-                                                style: TextStyle(fontSize: 20),
-                                              ),
-                                              Text(
-                                                '$houseName\n $streetName\n$landmark',
-                                                style: const TextStyle(
-                                                  fontSize: 18,
+                                          Padding(
+                                            padding: const EdgeInsets.all(24),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    const Icon(Icons.home,
+                                                        size: 32),
+                                                    const SizedBox(width: 32),
+                                                    Text(
+                                                      '$houseName\n $streetName\n$landmark',
+                                                      style: const TextStyle(
+                                                          fontSize: 18),
+                                                    )
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          sheight,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              const Text(
-                                                'Phone Number: ',
-                                                style: TextStyle(fontSize: 20),
-                                              ),
-                                              Text(
-                                                '$phoneNumber',
-                                                style: const TextStyle(
-                                                  fontSize: 18,
+                                                sheight,
+                                                Row(
+                                                  children: [
+                                                    const Icon(Icons.phone,
+                                                        size: 32),
+                                                    const SizedBox(width: 32),
+                                                    Text(
+                                                      '$phoneNumber',
+                                                      style: const TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              )
-                                            ],
+                                                sheight,
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                        Icons.location_city,
+                                                        size: 32),
+                                                    const SizedBox(width: 32),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .push(
+                                                                  MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    Location(
+                                                              latitude:
+                                                                  latitude,
+                                                              longitude:
+                                                                  longitude,
+                                                            ),
+                                                          ));
+                                                        },
+                                                        child: const Text(
+                                                            'Show user location in map')),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                           TextButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              SalesHistory(
-                                                                  docId:
-                                                                      docId))),
+                                              onPressed: () => Navigator
+                                                      .of(context)
+                                                  .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          CompleteInvoice(
+                                                              docId: docId))),
                                               child: const Text(
-                                                  'Click here to see sales history',
+                                                  'Show complete invoice',
                                                   style: TextStyle(
-                                                      color: darkgreen,
-                                                      fontSize: 18))),
-                                          const Captions(
-                                              captionColor: kdarkgreen,
-                                              captions:
-                                                  'Add Collection details'),
+                                                      color: kblack,
+                                                      fontSize: 18,
+                                                      decoration: TextDecoration
+                                                          .underline,
+                                                      textBaseline: TextBaseline
+                                                          .alphabetic))),
                                           sheight,
+                                          const Center(
+                                            child: Text(
+                                                'Vegetables pending for collection will be listed below'),
+                                          ),
                                           Expanded(
                                               child: ListView.builder(
                                             itemCount: vegetablesList.length,
                                             itemBuilder: (context, index) {
                                               var vegId =
                                                   vegetablesList[index].id;
+                                              var vegPrice =
+                                                  vegetablesList[index]
+                                                      ['vegPrice'];
                                               var vegetableName =
                                                   vegetablesList[index]
                                                       ['vegetable_name'];
@@ -173,6 +226,9 @@ class UserProfile extends StatelessWidget {
                                                         .push(MaterialPageRoute(
                                                       builder: (context) =>
                                                           ProductDetails(
+                                                        vegQuantity: vegQuantity
+                                                            .toString(),
+                                                        vegPrice: vegPrice,
                                                         vegId: vegId,
                                                         docId: docId,
                                                         vegetableName:

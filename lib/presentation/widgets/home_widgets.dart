@@ -1,4 +1,4 @@
-import 'package:cucumber_admin/presentation/views/settings.dart';
+import 'package:cucumber_admin/presentation/views/settings/settings.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';

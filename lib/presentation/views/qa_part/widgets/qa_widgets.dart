@@ -23,12 +23,12 @@ class QuantityButton extends StatelessWidget {
           child: Container(
             width: 40,
             height: 40,
-            color: transOrange,
+            color: kwhite,
             child: IconButton(
               onPressed: onpressed,
               icon: Icon(
                 quantityIcon, // Default icon is Icons.add
-                color: kblack,
+                color: homeorange,
               ),
             ),
           ),

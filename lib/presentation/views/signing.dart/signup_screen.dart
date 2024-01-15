@@ -98,11 +98,13 @@ class _SignUpState extends State<SignUp> {
                     Forms(
                       customValidator: validatePassword,
                       loginText: 'Password',
+                      obscureText: true,
                       inputController: passwordController,
                     ),
                     SizedBox(height: screenHeight * 0.05),
                     Forms(
                         customValidator: validatePassword,
+                        obscureText: true,
                         loginText: 'Confirm Password'),
                     SizedBox(height: screenHeight * 0.05),
                     SignUpButton(

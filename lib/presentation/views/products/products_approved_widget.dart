@@ -1,4 +1,5 @@
 import 'package:cucumber_admin/presentation/views/products/add_products.dart';
+import 'package:cucumber_admin/presentation/widgets/contact_form_widgets.dart';
 import 'package:cucumber_admin/utils/constants/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class _ApprovedProductsState extends State<ApprovedProducts> {
   TextEditingController searchController = TextEditingController();
   late QuerySnapshot snapshot;
   List<DocumentSnapshot> filteredVegetables = [];
-
+  bool showAllItems = false;
   void filterVegetables(String query) {
     setState(() {
       filteredVegetables.clear();
@@ -61,7 +62,10 @@ class _ApprovedProductsState extends State<ApprovedProducts> {
                   builder: (context) => const AddVegetableScreen(),
                 )),
             child: const Text('Click here to add new Products',
-                style: TextStyle(color: kwhite, fontSize: 18))),
+                style: TextStyle(
+                    color: darkgreen,
+                    fontSize: 18,
+                    decoration: TextDecoration.underline))),
         sheight,
         Flexible(
           child: StreamBuilder<QuerySnapshot>(
@@ -81,19 +85,25 @@ class _ApprovedProductsState extends State<ApprovedProducts> {
                     : filteredVegetables;
 
                 return ListView.builder(
-                  itemCount: vegetables.length,
+                  itemCount: showAllItems
+                      ? vegetables.length
+                      : vegetables.length > 4
+                          ? 4
+                          : vegetables.length,
                   itemBuilder: (context, index) {
                     var vegetable = vegetables[index];
                     var name = vegetable['name'];
                     var price = vegetable['price'];
-
+                    var imageUrl = vegetable['imageUrl'];
                     return Card(
                       child: ListTile(
                         leading: Container(
                           decoration: const BoxDecoration(color: kwhite),
                           width: 70,
                           height: 70,
-                          child: Image.asset('assets/images.jpeg'),
+                          child: imageUrl.isNotEmpty
+                              ? Image.network(imageUrl) // Load image from URL
+                              : Image.asset('assets/images.jpeg'),
                         ),
                         title: Text(name),
                         subtitle: Text('$price per Kg'),
@@ -142,6 +152,14 @@ class _ApprovedProductsState extends State<ApprovedProducts> {
             },
           ),
         ),
+        Next(
+            onPressed: () {
+              setState(() {
+                showAllItems = !showAllItems;
+              });
+            },
+            buttonText: showAllItems ? 'Show Less' : 'See More',
+            buttonColor: darkgreen)
       ],
     );
   }

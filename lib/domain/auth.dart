@@ -23,10 +23,9 @@ class FirebaseAuthServices {
       User? user = userCredential.user;
 
       if (user != null) {
-        await adminCollection.doc(user.uid).set({
-          'email': email,
-          'username': username,
-        });
+        await adminCollection
+            .doc(user.uid)
+            .set({'email': email, 'username': username});
       }
 
       return user;

@@ -1,19 +1,14 @@
-import 'dart:developer';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cucumber_admin/presentation/widgets/common_widgets.dart';
 import 'package:cucumber_admin/utils/constants/constants.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddVegetableScreen extends StatelessWidget {
   const AddVegetableScreen({super.key});
-  void _pickImage() {
-    ImagePicker().pickImage(
-      source: ImageSource.camera,
-      imageQuality: 50,
-      maxWidth: 150,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +32,28 @@ class AddVegetableForm extends StatefulWidget {
 }
 
 class _AddVegetableFormState extends State<AddVegetableForm> {
+  File? _image;
+  UploadTask? uploadTask;
+  Future _getImage(ImageSource source) async {
+    final PickedFile = await ImagePicker().pickImage(source: source);
+
+    if (PickedFile != null) {
+      setState(() {
+        _image = File(PickedFile.path);
+      });
+    }
+  }
+
+  Future uploadFile() async {
+    final path = 'files/$_image';
+    final file = File(_image!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    ref.putFile(file);
+    final snapshot = await uploadTask!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Download Link: $urlDownload');
+  }
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   // final TextEditingController _quantityController = TextEditingController();
@@ -48,15 +65,26 @@ class _AddVegetableFormState extends State<AddVegetableForm> {
       children: [
         const Row(
           children: [
-            Arrowback(backcolor: kblack),
-            Captions(captionColor: kdarkgreen, captions: 'Add new Vegetable')
+            Arrowback(backcolor: darkgreen),
+            Captions(captionColor: darkgreen, captions: 'Add new Vegetable')
           ],
         ),
         sheight,
-        const Center(
-          child: CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.grey,
+        GestureDetector(
+          onTap: () {
+            _showImageSourceDialog();
+          },
+          child: Center(
+            child: CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.grey,
+              backgroundImage: _image != null
+                  ? FileImage(_image!)
+                  : null, // Display the selected image if available
+              child: _image == null
+                  ? const Icon(Icons.image, color: Colors.white)
+                  : null,
+            ),
           ),
         ),
         lheight,
@@ -102,37 +130,54 @@ class _AddVegetableFormState extends State<AddVegetableForm> {
     );
   }
 
-  void _addVegetable() {
+  Future<void> _addVegetable() async {
     String name = _capitalizeFirstLetter(_nameController.text);
     double price = double.parse(_priceController.text);
 
-    CollectionReference vegetables =
+    CollectionReference vegetablesRef =
         FirebaseFirestore.instance.collection('vegetables');
+    final vegetables =
+        FirebaseFirestore.instance.collection('vegetables').doc();
+    Future uploadFile() async {
+      final path = 'files/${_image!.path.split('/').last}';
+      final file = File(_image!.path);
+      final ref = FirebaseStorage.instance.ref().child(path);
+      final uploadTask = ref.putFile(file);
+      await uploadTask.whenComplete(() async {
+        final urlDownload = await ref.getDownloadURL();
+        print('Download Link: $urlDownload');
 
-    vegetables
+        // Update the Firestore document with the image URL
+        await vegetables.update({'imageUrl': urlDownload});
+      });
+    }
+
+    vegetablesRef
         .where('name', isEqualTo: name)
         .get()
-        .then((QuerySnapshot querySnapshot) {
+        .then((QuerySnapshot querySnapshot) async {
       if (querySnapshot.docs.isNotEmpty) {
         return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Vegetable with name $name already exists')));
       } else {
-        vegetables.add({
+        await vegetables.set({
           'name': name,
           'price': price,
-        }).then((value) {
-          log('Vegetable added to Firestore with ID: ${value.id}');
-          Navigator.of(context).pop();
-
-          _nameController.clear();
-          _priceController.clear();
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              animation: kAlwaysDismissedAnimation,
-              backgroundColor: Colors.amber,
-              content: Text('Vegetable added for sale')));
-        }).catchError((error) {
-          log('Failed to add vegetable to Firestore: $error');
+          'imageUrl': '',
         });
+        // .then((value) {
+
+        await uploadFile();
+        _nameController.clear();
+        _priceController.clear();
+        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            animation: kAlwaysDismissedAnimation,
+            backgroundColor: Colors.amber,
+            content: Text('Vegetable added for sale')));
+        // }).catchError((error) {
+        //   log('Failed to add vegetable to Firestore: $error');
+        // });
       }
     });
   }
@@ -142,5 +187,35 @@ class _AddVegetableFormState extends State<AddVegetableForm> {
       return text;
     }
     return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
+
+  void _showImageSourceDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Select Image Source'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera),
+              title: const Text('Take a photo'),
+              onTap: () {
+                _getImage(ImageSource.camera);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text('Choose from gallery'),
+              onTap: () {
+                _getImage(ImageSource.gallery);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

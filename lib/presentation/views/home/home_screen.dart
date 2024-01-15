@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cucumber_admin/presentation/views/home/main_screens_nav.dart';
-import 'package:cucumber_admin/presentation/views/settings.dart';
+import 'package:cucumber_admin/presentation/views/settings/settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kwhite,
+        backgroundColor: darkgreen,
         body: Stack(
           children: [
             Positioned.fill(

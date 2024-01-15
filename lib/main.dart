@@ -1,6 +1,7 @@
 import 'package:cucumber_admin/presentation/presentation_logic/bloc/login/login_bloc.dart';
+import 'package:cucumber_admin/presentation/presentation_logic/bloc/quantity_button/quantity_button_bloc.dart';
 import 'package:cucumber_admin/presentation/presentation_logic/bloc/signup/signup_bloc.dart';
-import 'package:cucumber_admin/presentation/views/signing.dart/login.dart';
+import 'package:cucumber_admin/presentation/views/signing.dart/splash_screen.dart';
 import 'package:cucumber_admin/utils/screen_size.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +29,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LoginBloc(),
+        ),
+        BlocProvider(
+          create: (context) => QuantityButtonBloc(),
         )
       ],
       child: MaterialApp(
-        home: Login(),
+        theme: ThemeData.light(),
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
       ),
     );
   }

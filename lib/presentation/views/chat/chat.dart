@@ -6,24 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cucumber_admin/utils/constants/constants.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends StatelessWidget {
   final String farmerId;
   final String receiverName;
   final String senderId;
   final String senderName;
-  const ChatScreen(
+  ChatScreen(
       {super.key,
       required this.farmerId,
       required this.receiverName,
       required this.senderId,
       required this.senderName});
 
-  @override
-  // ignore: library_private_types_in_public_api
-  _ChatScreenState createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
 
   void _handleSubmitted(String text) {
@@ -31,19 +25,19 @@ class _ChatScreenState extends State<ChatScreen> {
     final user = FirebaseAuth.instance.currentUser;
     ChatMessage message = ChatMessage(
       isSentbyme: true,
-      senderId: user!.uid, // Set the sender's user ID
-      receiverId: widget.farmerId,
+      senderId: 'adminId',
+      receiverId: farmerId,
       message: text,
       timestamp: DateTime.now(),
     );
 
-    String chatId = widget.farmerId + user.uid;
+    String chatId = '${farmerId}adminId';
     String messageId = DateTime.now().millisecondsSinceEpoch.toString();
     FirebaseFirestore.instance
         .collection('chats')
         .doc(chatId)
         .collection('messages')
-        .doc(messageId) // Use the generated timestamp as the document ID
+        .doc(messageId)
         .set(message.toMap());
   }
 
@@ -51,13 +45,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
-    String chatId = widget.farmerId + user!.uid;
+    String chatId = farmerId + 'adminId';
     return Scaffold(
       appBar: AppBar(
           leading: const Arrowback(backcolor: homeorange),
           backgroundColor: kwhite,
           title: Text(
-            widget.receiverName,
+            receiverName,
             style: const TextStyle(color: homeorange),
           )),
       body: Column(
@@ -71,13 +65,13 @@ class _ChatScreenState extends State<ChatScreen> {
                   .orderBy('timestamp', descending: false)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
+                // if (snapshot.hasError) {
+                //   return Text('Error: ${snapshot.error}');
+                // }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
+                // if (snapshot.connectionState == ConnectionState.waiting) {
+                //   return const CircularProgressIndicator();
+                // }
                 return ListView.builder(
                   padding: const EdgeInsets.all(8.0),
                   itemCount: snapshot.data!.docs.length,
@@ -107,7 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
     CrossAxisAlignment crossAxisAlignment =
         isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start;
 
-    Color messageColor = isSender ? Colors.grey : transOrange;
+    Color messageColor = isSender ? homeorange : Colors.grey;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -135,29 +129,26 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildTextComposer() {
-    return IconTheme(
-      data: IconThemeData(color: Theme.of(context).canvasColor),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: Row(
-          children: <Widget>[
-            Flexible(
-              child: TextField(
-                controller: _textController,
-                onSubmitted: _handleSubmitted,
-                decoration:
-                    const InputDecoration.collapsed(hintText: 'Send a message'),
-              ),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            child: TextField(
+              controller: _textController,
+              onSubmitted: _handleSubmitted,
+              decoration:
+                  const InputDecoration.collapsed(hintText: 'Send a message'),
             ),
-            IconButton(
-              icon: const Icon(
-                Icons.send,
-                color: Colors.grey,
-              ),
-              onPressed: () => _handleSubmitted(_textController.text),
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.send,
+              color: Colors.grey,
             ),
-          ],
-        ),
+            onPressed: () => _handleSubmitted(_textController.text),
+          ),
+        ],
       ),
     );
   }
