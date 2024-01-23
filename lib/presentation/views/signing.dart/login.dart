@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
             padding: EdgeInsets.only(top: screenHeight * 0.16),
             child: Center(
                 child: LoginHeading(
-              signingText: 'Cucumber\nAdmin',
+              signingText: 'FarmFriendly',
             )),
           ),
           lheight,

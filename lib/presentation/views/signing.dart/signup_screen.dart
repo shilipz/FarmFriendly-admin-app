@@ -80,7 +80,8 @@ class _SignUpState extends State<SignUp> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: screenHeight * 0.0005),
-                      child: LoginHeading(signingText: 'Join Cucumber family'),
+                      child:
+                          LoginHeading(signingText: 'Join FarmFriendly family'),
                     ),
                     lheight,
                     Forms(

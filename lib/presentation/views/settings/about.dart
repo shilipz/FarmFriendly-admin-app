@@ -27,12 +27,12 @@ class AboutScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Cucumber Admin App',
+                    'FarmFriendly Admin App',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16.0),
                   Text(
-                    'Welcome to the Cucumber Admin App, your ultimate tool for seamlessly managing and optimizing your farm produce operations. This app is designed to empower farmers and administrators in the agricultural ecosystem, providing a user-friendly interface for handling vegetable prices, updating collection details, facilitating payments to farmers, and engaging in direct communication with customers.',
+                    'Welcome to the FarmFriendly Admin App, your ultimate tool for seamlessly managing and optimizing your farm produce operations. This app is designed to empower farmers and administrators in the agricultural ecosystem, providing a user-friendly interface for handling vegetable prices, updating collection details, facilitating payments to farmers, and engaging in direct communication with customers.',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 16.0),
@@ -58,7 +58,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16.0),
                   Text(
-                    'Why Choose Cucumber Admin App:',
+                    'Why Choose FarmFriendly Admin App:',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
@@ -74,7 +74,7 @@ class AboutScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                   Text(
-                    '- Supporting Sustainable Agriculture: By using the Cucumber Admin App, you contribute to promoting sustainable agriculture practices and supporting local farmers.',
+                    '- Supporting Sustainable Agriculture: By using the FarmFriendly Admin App, you contribute to promoting sustainable agriculture practices and supporting local farmers.',
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 16.0),
@@ -83,7 +83,7 @@ class AboutScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Download the Cucumber Admin App today and embark on a journey towards efficient farm produce management. Empower your farming community and connect with customers in a meaningful way.',
+                    'Download the FarmFriendly Admin App today and embark on a journey towards efficient farm produce management. Empower your farming community and connect with customers in a meaningful way.',
                     style: TextStyle(fontSize: 16),
                   ),
                 ],

@@ -46,7 +46,7 @@ class SplashScreen extends StatelessWidget {
                   children: [
                     // Center(
                     //  child:
-                    Text('Cucumber',
+                    Text('FarmFriendly',
                         style: GoogleFonts.playfairDisplay(
                             textStyle: const TextStyle(
                                 color: homeorange,

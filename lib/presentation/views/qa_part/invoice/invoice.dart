@@ -75,7 +75,7 @@ class CompleteInvoiceDetailsWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Admin,\nCucumber Wholesalers,\n Market road'),
+                      Text('Admin,\nFarmFriendly Wholesalers,\n Market road'),
                       SizedBox(
                           height: 50, width: 50, child: Icon(Icons.qr_code)),
                     ],
